@@ -12,29 +12,23 @@
 
 /**
  * @ngdoc controller
- * @name teams.navbar.controller:NavbarTeamsController
- * @description This class is handling the controller for the teams section in navbar
+ * @name teams.create.controller:CreateTeamController
+ * @description This class is handling the controller for the new team creation.
  * @author Ann Shumilova
  */
-export class NavbarTeamsController {
+export class CreateTeamController {
 
   codenvyTeam: CodenvyTeam;
+  codenvyUser: CodenvyUser;
 
   /**
    * Default constructor
    * @ngInject for Dependency injection
    */
-  constructor(codenvyTeam) {
+  constructor(codenvyTeam, codenvyUser) {
     this.codenvyTeam = codenvyTeam;
-    this.fetchTeams();
-  }
+    this.codenvyUser = codenvyUser;
 
-  fetchTeams() {
-    this.codenvyTeam.fetchTeams();
+    this.owner = codenvyUser.getUser().email;
   }
-
-  getTeams() {
-    return this.codenvyTeam.getTeams();
-  }
-
 }

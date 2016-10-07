@@ -22,14 +22,15 @@
  */
 export class CodenvyTeam {
 
-  private teamsMap = new Map();
+  teamsMap : Map<string, any> = new Map();
+  teams : any = [];
 
   /**
    * Default constructor that is using resource
    * @ngInject for Dependency injection
    */
-  constructor($q, $resource) {
-    this.remoteTeamAPI = this.$resource('/api/organization', {}, {
+  constructor($resource) {
+    this.remoteTeamAPI = $resource('/api/organization', {}, {
       getTeams: {method: 'GET', url: '/api/organization', isArray: true}
     });
   }
@@ -42,8 +43,12 @@ export class CodenvyTeam {
     let promise = this.remoteTeamAPI.getTeams().$promise;
 
     let resultPromise = promise.then((teams) => {
+      this.teamsMap = new Map();
+      this.teams = [];
+
       teams.forEach((team) => {
         this.teamsMap.set(team.id, team);
+        this.teams.push(team);
       });
     });
 
@@ -51,6 +56,6 @@ export class CodenvyTeam {
   }
 
   getTeams() {
-    return this.teamsMap;
+    return this.teams;
   }
 }

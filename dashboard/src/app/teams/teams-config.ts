@@ -17,10 +17,24 @@
 import {NavbarTeamsController} from './navbar-teams/navbar-teams.controller';
 import {NavbarTeams} from './navbar-teams/navbar-teams.directive';
 
+import {CreateTeamController} from './create-team/create-team.controller';
+
 export class TeamsConfig {
 
   constructor(register) {
     register.controller('NavbarTeamsController', NavbarTeamsController);
     register.directive('navbarTeams', NavbarTeams);
+    register.controller('CreateTeamController', CreateTeamController);
+
+    // config routes
+    register.app.config(function ($routeProvider) {
+      $routeProvider.accessWhen('/team/create', {
+        title: 'New Team',
+        templateUrl: 'app/teams/create-team/create-team.html',
+        controller: 'CreateTeamController',
+        controllerAs: 'createTeamController'
+      });
+
+    });
   }
 }
