@@ -1,0 +1,44 @@
+<div class="admin-navbar-menu navbar-teams"
+     ng-show="navbarRecentWorkspacesController.getRecentWorkspaces().length">
+  <section class="left-sidebar-menu" layout="column" layout-align="start stretch">
+
+    <div class="navbar-section navbar-section-title"
+         flex layout="row">
+      <div flex>
+        <span>Teams</span>
+      </div>
+    </div>
+
+    <md-list layout="column">
+      <md-list-item flex class="navbar-subsection-item create-team-item">
+        <md-button flex che-reload-href
+                   ng-href="#/team/create"
+                   layout-align="left">
+          <div class="navbar-item" layout="row" layout-align="start center">
+            <i class="fa fa-plus-circle fa-lg navbar-icon"></i>
+            <span>Create New Team</span>
+          </div>
+        </md-button>
+      </md-list-item>
+      <md-list-item flex class="navbar-subsection-item"
+                    ng-repeat="workspace in navbarRecentWorkspacesController.getRecentWorkspaces()
+                    | orderBy:['attributes.opened', 'attributes.updated']:'reverse'
+                    | limitTo:5"
+                    ng-class="{'recent-workspaces-last-opened': navbarRecentWorkspacesController.isOpen(workspace.id)}">
+          <md-button nav-bar-selected flex che-reload-href
+                     ng-href="{{navbarRecentWorkspacesController.getIdeLink(workspace.id)}}" layout-align="left"
+                     target="_self">
+            <div class="navbar-item" layout="row" layout-align="start center">
+              <workspace-status-indicator
+                che-status="navbarRecentWorkspacesController.getWorkspaceStatus(workspace.id)"
+                che-empty-circle="true"
+                class="navbar-icon"
+                title="{{navbarRecentWorkspacesController.getWorkspaceStatus(workspace.id)}}"></workspace-status-indicator>
+            <span title="{{navbarRecentWorkspacesController.getWorkspaceName(workspace.id)}}"
+                  ng-class="{'recent-workspaces-stopped-workspace': navbarRecentWorkspacesController.getWorkspaceStatus(workspace.id) === 'STOPPED'}">{{navbarRecentWorkspacesController.getWorkspaceName(workspace.id)}}</span>
+            </div>
+          </md-button>
+      </md-list-item>
+    </md-list>
+  </section>
+</div>
